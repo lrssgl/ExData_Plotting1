@@ -1,0 +1,16 @@
+
+temp <- tempfile()
+download.file("https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_power_consumption.zip", temp)
+data <- read.table(unz(temp, "household_power_consumption.txt"), sep=";", header=TRUE, colClasses = c("factor","factor","numeric","numeric","numeric","numeric","numeric","numeric","numeric"), na.strings=c("?"))
+unlink(temp)
+
+mydata<-subset(data,(as.Date(Date, format="%d/%m/%Y")==as.Date("2007-02-01")| as.Date(Date, format="%d/%m/%Y")==as.Date("2007-02-02")) )
+head(mydata)
+mydata$TS <- strptime(paste(mydata$Date, mydata$Time),"%d/%m/%Y %H:%M:%S", tz = "EST5EDT")
+png(filename = "plot3.png",    width = 480, height = 480,  bg="transparent")
+plot_colors <- c("black", "red","blue")
+with(mydata, plot(TS,Sub_metering_1,  type="l", col=plot_colors[1] , xlab="", ylab='Energy Sub_metering'))
+with(mydata,lines(TS,Sub_metering_2,  type="l", col=plot_colors[2] , xlab="")     )
+with(mydata,lines(TS,Sub_metering_3,  type="l", col=plot_colors[3] , xlab="")     )
+legend("topright", names(mydata[7:9]), cex=0.8, col=plot_colors,  lty=1, lwd=2)
+dev.off()
