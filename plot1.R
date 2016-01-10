@@ -6,6 +6,6 @@ unlink(temp)
 
 mydata<-subset(data,(as.Date(Date, format="%d/%m/%Y")==as.Date("2007-02-01")| as.Date(Date, format="%d/%m/%Y")==as.Date("2007-02-02")) )
 head(mydata)
-png(filename = "plot1.png",    width = 480, height = 480)
+png(filename = "plot1.png",    width = 480, height = 480, , bg="transparent")
 with(mydata, hist(as.numeric(Global_active_power), col="red", xlab='Global Active Power (killowatts)', main="Global Active Power"))
 dev.off()
